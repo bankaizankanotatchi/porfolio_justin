@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "experience": "Experience",
+    "testimonials": "Client Reviews",
+    "contact": "Contact",
+    "admin": "Dashboard"
+  },
+  "hero": {
+    "greeting": "Hi, I am",
+    "subtitle": "Fullstack Developer specialized in building robust applications and automating infrastructures.",
+    "cta_projects": "View my projects",
+    "cta_contact": "Contact me",
+    "download_cv": "Download CV",
+    "scroll_down": "Scroll down to learn more"
+  },
+  "about": {
+    "title": "My Journey",
+    "subtitle": "Who I am & Where I come from",
+    "formation_title": "Education & Degrees",
+    "experience_title": "Professional Experience",
+    "bio_intro": "Explore my academic path and professional contributions over the years."
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "My tools, languages & technological expertise",
+    "categories": {
+      "languages": "Languages",
+      "frontend": "Frontend",
+      "backend": "Backend / Frameworks",
+      "mobile": "Mobile",
+      "databases": "Databases",
+      "devops": "DevOps & VPS",
+      "erp": "Odoo ERP",
+      "automation": "Automation / AI",
+      "sig": "GIS & Geolocation",
+      "modeling": "Modeling & Conception",
+      "softSkills": "Soft Skills"
+    }
+  },
+  "projects": {
+    "title": "Projects Done",
+    "subtitle": "A curated selection of my web, mobile, and ERP integration work",
+    "filter_all": "All",
+    "filter_by": "Filter by technology",
+    "view_code": "Source code",
+    "view_demo": "Live Demo",
+    "no_projects": "No projects match the current criteria."
+  },
+  "testimonials": {
+    "title": "What Clients Say",
+    "subtitle": "Recommendations and feedback on my freelance and corporate deliverables",
+    "no_testimonials": "No client feedback available yet.",
+    "write_title": "Leave a Testimony",
+    "write_subtitle": "Share your feedback on our collaboration",
+    "form": {
+      "clientName": "Your Name *",
+      "companyName": "Company / Organization",
+      "message": "Your Message *",
+      "rating": "Your Rating (1 to 5 stars) *",
+      "submit": "Submit my testimony",
+      "submitting": "Submitting...",
+      "success": "Thank you! Your review has been submitted successfully and is awaiting approval.",
+      "error": "An error occurred while submitting your testimony."
+    }
+  },
+  "contact": {
+    "title": "Contact Me",
+    "subtitle": "Let's discuss your next project or potential collaboration opportunities",
+    "info_title": "My Contact Details",
+    "form_title": "Send me a message",
+    "fields": {
+      "name": "Full name *",
+      "email": "Email Address *",
+      "phone": "Phone number",
+      "message": "Your message *",
+      "submit": "Send message",
+      "submitting": "Sending message...",
+      "success": "Your message has been sent successfully!",
+      "error": "Error: Unable to send your message at the moment."
+    }
+  },
+  "admin": {
+    "title": "Administration Area",
+    "subtitle": "Manage portfolio, reviews, and received contact messages",
+    "login_title": "Authentication Required",
+    "password_placeholder": "Enter your admin password",
+    "login_btn": "Log In",
+    "incorrect_pass": "Incorrect password.",
+    "logout_btn": "Log Out",
+    "tabs": {
+      "contacts": "Contact Messages ({count})",
+      "reviews": "Client Reviews ({count})",
+      "profile": "Edit Profile"
+    },
+    "contacts": {
+      "empty": "No contact messages received.",
+      "from": "From:",
+      "phone": "Phone:",
+      "date": "Received on:",
+      "mark_read": "Mark as read",
+      "delete": "Delete"
+    },
+    "reviews": {
+      "empty": "No client reviews received.",
+      "pending": "Awaiting approval",
+      "approved": "Approved",
+      "approve_btn": "Approve Display",
+      "delete_btn": "Delete Review"
+    },
+    "profile": {
+      "title": "Edit Public Profile Information",
+      "save_btn": "Save Profile",
+      "saving": "Saving...",
+      "success": "Profile updated successfully!",
+      "add_project_btn": "Add a project",
+      "project_fields": {
+        "name": "Project Name",
+        "category": "Category (e.g. Mobile App)",
+        "year": "Year",
+        "stack": "Stack (comma separated)",
+        "desc_fr": "Description in French",
+        "desc_en": "Description in English"
+      }
+    }
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

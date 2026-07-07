@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "experience": "Expérience",
+    "testimonials": "Avis Clients",
+    "contact": "Contact",
+    "admin": "Dashboard"
+  },
+  "hero": {
+    "greeting": "Bonjour, je suis",
+    "subtitle": "Développeur Fullstack spécialisé dans la conception d'applications robustes et l'automatisation d'infrastructures.",
+    "cta_projects": "Voir mes projets",
+    "cta_contact": "Me contacter",
+    "download_cv": "Télécharger CV",
+    "scroll_down": "Faites défiler pour en savoir plus"
+  },
+  "about": {
+    "title": "Mon Parcours",
+    "subtitle": "Qui je suis & D'où je viens",
+    "formation_title": "Études & Diplômes",
+    "experience_title": "Expérience Professionnelle",
+    "bio_intro": "Découvrez ma trajectoire académique et mes contributions professionnelles au fil des années."
+  },
+  "skills": {
+    "title": "Compétences",
+    "subtitle": "Mes outils, langages & expertises technologiques",
+    "categories": {
+      "languages": "Langages",
+      "frontend": "Frontend",
+      "backend": "Backend / Frameworks",
+      "mobile": "Mobile",
+      "databases": "Bases de Données",
+      "devops": "DevOps & VPS",
+      "erp": "ERP Odoo",
+      "automation": "Automatisation / IA",
+      "sig": "SIG & Géolocalisation",
+      "modeling": "Conception & Modélisation",
+      "softSkills": "Soft Skills"
+    }
+  },
+  "projects": {
+    "title": "Projets Réalisés",
+    "subtitle": "Une sélection de mes travaux web, mobiles et d'intégration ERP",
+    "filter_all": "Tous",
+    "filter_by": "Filtrer par techno",
+    "view_code": "Code source",
+    "view_demo": "Démo Live",
+    "no_projects": "Aucun projet trouvé avec les critères actuels."
+  },
+  "testimonials": {
+    "title": "Ce qu'on pense de moi",
+    "subtitle": "Recommandations et retours sur mes prestations freelance et en entreprise",
+    "no_testimonials": "Aucun avis client disponible pour le moment.",
+    "write_title": "Laisser un témoignage",
+    "write_subtitle": "Partagez votre avis sur notre collaboration",
+    "form": {
+      "clientName": "Votre nom / Prénom *",
+      "companyName": "Structure / Entreprise",
+      "message": "Votre message *",
+      "rating": "Votre note (1 à 5 étoiles) *",
+      "submit": "Soumettre mon témoignage",
+      "submitting": "Envoi en cours...",
+      "success": "Merci ! Votre avis a été soumis avec succès et est en attente d'approbation.",
+      "error": "Une erreur est survenue lors de l'envoi de votre témoignage."
+    }
+  },
+  "contact": {
+    "title": "Me Contacter",
+    "subtitle": "Discutons de votre prochain projet ou d'opportunités de collaboration",
+    "info_title": "Mes Coordonnées",
+    "form_title": "Envoyez-moi un message",
+    "fields": {
+      "name": "Nom complet *",
+      "email": "Adresse Email *",
+      "phone": "Numéro de téléphone",
+      "message": "Votre message *",
+      "submit": "Envoyer le message",
+      "submitting": "Envoi du message...",
+      "success": "Votre message a été envoyé avec succès !",
+      "error": "Erreur : Impossible d'envoyer votre message pour le moment."
+    }
+  },
+  "admin": {
+    "title": "Espace Administration",
+    "subtitle": "Gestion du portfolio, des avis et des messages reçus",
+    "login_title": "Authentification requise",
+    "password_placeholder": "Entrez votre mot de passe d'administration",
+    "login_btn": "Se connecter",
+    "incorrect_pass": "Mot de passe incorrect.",
+    "logout_btn": "Se déconnecter",
+    "tabs": {
+      "contacts": "Messages de Contact ({count})",
+      "reviews": "Témoignages Clients ({count})",
+      "profile": "Édition du Profil"
+    },
+    "contacts": {
+      "empty": "Aucun message de contact reçu.",
+      "from": "De :",
+      "phone": "Tél :",
+      "date": "Reçu le :",
+      "mark_read": "Marquer comme lu",
+      "delete": "Supprimer"
+    },
+    "reviews": {
+      "empty": "Aucun témoignage client reçu.",
+      "pending": "En attente d'approbation",
+      "approved": "Approuvé",
+      "approve_btn": "Approuver l'affichage",
+      "delete_btn": "Supprimer l'avis"
+    },
+    "profile": {
+      "title": "Modifier les informations publiques",
+      "save_btn": "Enregistrer le profil",
+      "saving": "Enregistrement...",
+      "success": "Profil mis à jour avec succès !",
+      "add_project_btn": "Ajouter un projet",
+      "project_fields": {
+        "name": "Nom du projet",
+        "category": "Catégorie (ex: Mobile App)",
+        "year": "Année",
+        "stack": "Stack (séparer par des virgules)",
+        "desc_fr": "Description en Français",
+        "desc_en": "Description en Anglais"
+      }
+    }
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  }
+}
