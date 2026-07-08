@@ -63,7 +63,7 @@ export default function HeroSection({ profile, locale }: HeroSectionProps) {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-        className="z-10 self-end max-w-md text-right mb-5 flex flex-col items-end gap-6 mt-16 lg:mt-0"
+        className="z-10 self-end max-w-md text-right mb-10 flex flex-col items-end gap-6 mt-16 lg:mt-0"
       >
         <p className="hidden md:block text-xs sm:text-sm text-muted leading-relaxed max-w-sm text-right">
           {localBio}

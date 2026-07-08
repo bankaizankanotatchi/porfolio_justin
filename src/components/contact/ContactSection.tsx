@@ -80,7 +80,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
   };
 
   return (
-    <section id="contact" className="relative py-16 bg-card border-t border-border dark:border-white/5">
+    <section id="contact" className="relative py-16 bg-card border-t border-border dark:border-[#00ffcc] ">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -99,68 +99,11 @@ export default function ContactSection({ profile }: ContactSectionProps) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          
-          {/* COORDONNÉES (GAUCHE - col-span 5) */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-background border border-border dark:border-white/5 rounded-xl p-6 md:p-8 shadow-sm">
-            <div>
-              <h3 className="font-mono text-xs font-bold text-foreground uppercase tracking-wider mb-6 pb-3 border-b border-border dark:border-white/5">
-                // {t("info_title")}
-              </h3>
+        
 
-              <div className="space-y-4">
-                {/* Localisation */}
-                <div className="flex items-center gap-4 py-3 border-b border-border dark:border-white/5">
-                  <div className="p-2.5 rounded bg-card border border-border dark:border-white/5 text-primary dark:text-[#00ffcc]">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-mono text-[9px] text-muted uppercase block">Localisation</span>
-                    <span className="text-xs text-foreground/90 font-medium">{profile.location}</span>
-                  </div>
-                </div>
-
-                {/* Téléphone */}
-                <div className="flex items-center gap-4 py-3 border-b border-border dark:border-white/5">
-                  <div className="p-2.5 rounded bg-card border border-border dark:border-white/5 text-primary dark:text-[#00ffcc]">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-mono text-[9px] text-muted uppercase block">Téléphone</span>
-                    <a href={`tel:${profile.phone}`} className="text-xs text-foreground/90 font-medium hover:underline">
-                      {profile.phone}
-                    </a>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-center gap-4 py-3">
-                  <div className="p-2.5 rounded bg-card border border-border dark:border-white/5 text-primary dark:text-[#00ffcc]">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-mono text-[9px] text-muted uppercase block">Adresse Email</span>
-                    <a href={`mailto:${profile.email}`} className="text-xs text-foreground/90 font-medium hover:underline">
-                      {profile.email}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Disponibilité */}
-            <div className="mt-8 pt-6 border-t border-border dark:border-white/5">
-              <span className="font-mono text-[9px] text-primary dark:text-[#00ffcc] tracking-widest uppercase block mb-1">
-                // STATUS ACTIVE
-              </span>
-              <p className="text-xs text-muted leading-relaxed font-mono">
-                Consulting Odoo 18, développement mobile (Flutter/FastAPI), architectures Next.js, automatisations CI/CD (n8n, Docker).
-              </p>
-            </div>
-          </div>
-
-          {/* FORMULAIRE DE CONTACT (DROITE - col-span 7) */}
-          <div className="lg:col-span-7 bg-background border border-border dark:border-white/5 rounded-xl p-6 md:p-8 shadow-sm">
-            <h3 className="font-mono text-xs font-bold text-foreground uppercase tracking-wider mb-6 pb-3 border-b border-border dark:border-white/5">
+          {/* FORMULAIRE DE CONTACT (GAUCHE - col-span 7) */}
+          <div className="lg:col-span-7 bg-background border border-border dark:border-[#00ffcc]  rounded-xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-mono text-xs font-bold text-foreground uppercase tracking-wider mb-6 pb-3 border-b border-border dark:border-[#00ffcc] ">
               // {t("form_title")}
             </h3>
 
@@ -173,7 +116,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                     type="text"
                     {...register("name")}
                     className={`px-3 py-2 rounded-lg border bg-card focus:outline-none focus:ring-1 focus:ring-primary/20 text-xs text-foreground transition-all ${
-                      errors.name ? "border-red-500" : "border-border dark:border-white/5 focus:border-primary dark:focus:border-[#00ffcc]"
+                      errors.name ? "border-red-500" : "border-border dark:border-[#00ffcc]  focus:border-primary dark:focus:border-[#00ffcc]"
                     }`}
                   />
                   {errors.name && (
@@ -188,7 +131,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                     type="email"
                     {...register("email")}
                     className={`px-3 py-2 rounded-lg border bg-card focus:outline-none focus:ring-1 focus:ring-primary/20 text-xs text-foreground transition-all ${
-                      errors.email ? "border-red-500" : "border-border dark:border-white/5 focus:border-primary dark:focus:border-[#00ffcc]"
+                      errors.email ? "border-red-500" : "border-border dark:border-[#00ffcc]  focus:border-primary dark:focus:border-[#00ffcc]"
                     }`}
                   />
                   {errors.email && (
@@ -203,7 +146,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                 <input
                   type="text"
                   {...register("phone")}
-                  className="px-3 py-2 rounded-lg border border-border dark:border-white/5 bg-card focus:outline-none focus:border-primary dark:focus:border-[#00ffcc] focus:ring-1 focus:ring-primary/20 text-xs text-foreground transition-all"
+                  className="px-3 py-2 rounded-lg border border-border dark:border-[#00ffcc]  bg-card focus:outline-none focus:border-primary dark:focus:border-[#00ffcc] focus:ring-1 focus:ring-primary/20 text-xs text-foreground transition-all"
                 />
               </div>
 
@@ -214,7 +157,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   rows={4}
                   {...register("message")}
                   className={`px-3 py-2 rounded-lg border bg-card focus:outline-none focus:ring-1 focus:ring-primary/20 text-xs text-foreground transition-all resize-none ${
-                    errors.message ? "border-red-500" : "border-border dark:border-white/5 focus:border-primary dark:focus:border-[#00ffcc]"
+                    errors.message ? "border-red-500" : "border-border dark:border-[#00ffcc]  focus:border-primary dark:focus:border-[#00ffcc]"
                   }`}
                 />
                 {errors.message && (
@@ -258,6 +201,64 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                 <span>{submitting ? t("fields.submitting") : t("fields.submit")}</span>
               </button>
             </form>
+          </div>
+
+                    {/* COORDONNÉES (DROITE - col-span 5) */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-background border border-border dark:border-[#00ffcc] rounded-xl p-6 md:p-8 shadow-sm">
+            <div>
+              <h3 className="font-mono text-xs font-bold text-foreground uppercase tracking-wider mb-6 pb-3 border-b border-border dark:border-[#00ffcc] ">
+                // {t("info_title")}
+              </h3>
+
+              <div className="space-y-4">
+                {/* Localisation */}
+                <div className="flex items-center gap-4 py-3 border-b border-border dark:border-[#00ffcc] ">
+                  <div className="p-2.5 rounded bg-card border border-border dark:border-[#00ffcc]  text-primary dark:text-[#00ffcc]">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[9px] text-muted uppercase block">Localisation</span>
+                    <span className="text-xs text-foreground/90 font-medium">{profile.location}</span>
+                  </div>
+                </div>
+
+                {/* Téléphone */}
+                <div className="flex items-center gap-4 py-3 border-b border-border dark:border-[#00ffcc] ">
+                  <div className="p-2.5 rounded bg-card border border-border dark:border-[#00ffcc]  text-primary dark:text-[#00ffcc]">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[9px] text-muted uppercase block">Téléphone</span>
+                    <a href={`tel:${profile.phone}`} className="text-xs text-foreground/90 font-medium hover:underline">
+                      {profile.phone}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex items-center gap-4 py-3">
+                  <div className="p-2.5 rounded bg-card border border-border dark:border-[#00ffcc]  text-primary dark:text-[#00ffcc]">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[9px] text-muted uppercase block">Adresse Email</span>
+                    <a href={`mailto:${profile.email}`} className="text-xs text-foreground/90 font-medium hover:underline">
+                      {profile.email}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Disponibilité */}
+            <div className="mt-8 pt-6 border-t border-border dark:border-[#00ffcc] ">
+              <span className="font-mono text-[9px] text-primary dark:text-[#00ffcc] tracking-widest uppercase block mb-1">
+                // STATUS ACTIVE
+              </span>
+              <p className="text-xs text-muted leading-relaxed font-mono">
+                Consulting Odoo 18, développement mobile (Flutter/React Native), développement web (Next.js, React), automatisations CI/CD (n8n, Docker).
+              </p>
+            </div>
           </div>
 
         </div>

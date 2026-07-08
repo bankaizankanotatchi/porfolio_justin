@@ -115,7 +115,7 @@ export default function ProjectsSection({ profile, locale }: ProjectsSectionProp
           <div className="pt-12 flex justify-center">
             <a
               href={`/${locale}/projets`}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-border dark:border-white/10 bg-card hover:bg-muted/10 font-mono text-xs text-foreground tracking-wide transition-all focus:outline-none"
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-border dark:border-[#00ffcc] bg-card hover:bg-muted/10 font-mono text-xs text-foreground tracking-wide transition-all focus:outline-none"
             >
               <span>Voir tous mes projets</span>
               <ArrowRight className="w-3.5 h-3.5 text-primary dark:text-[#00ffcc]" />

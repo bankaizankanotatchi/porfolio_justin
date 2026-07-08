@@ -92,10 +92,10 @@ export default function SkillsSection({ profile }: SkillsSectionProps) {
               <motion.div
                 key={cat}
                 variants={itemVariants}
-                className="bg-card border border-border dark:border-white/5 hover:border-primary/20 dark:hover:border-primary/20 rounded-xl p-5 flex flex-col transition-all duration-300 hover:shadow-neon"
+                className="bg-card border border-border dark:border-[#00ffcc]  hover:border-primary/20 dark:hover:border-primary/20 rounded-xl p-5 flex flex-col transition-all duration-300 hover:shadow-neon"
               >
                 {/* En-tête de catégorie */}
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border dark:border-white/5">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border dark:border-[#00ffcc] ">
                   <Icon className="w-4 h-4 text-primary dark:text-[#00ffcc]" />
                   <h3 className="font-mono text-xs font-bold text-foreground uppercase tracking-wider">
                     {t(`categories.${cat}`)}
@@ -107,7 +107,7 @@ export default function SkillsSection({ profile }: SkillsSectionProps) {
                   {skillList.map((skill, index) => (
                     <span
                       key={index}
-                      className="text-xs font-semibold px-2.5 py-1 rounded bg-background border border-border dark:border-white/5 text-muted hover:border-primary dark:hover:border-[#00ffcc]/30 hover:text-foreground transition-colors cursor-default"
+                      className="text-xs font-semibold px-2.5 py-1 rounded bg-background border border-border dark:border-[#00ffcc]  text-muted hover:border-primary dark:hover:border-[#00ffcc]/30 hover:text-foreground transition-colors cursor-default"
                     >
                       {skill}
                     </span>

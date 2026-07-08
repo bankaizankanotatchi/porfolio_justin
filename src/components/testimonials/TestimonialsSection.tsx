@@ -50,7 +50,7 @@ export default function TestimonialsSection({ testimonials, locale }: Testimonia
             
             {/* Conteneur principal de la carte */}
             <div className="bg-card border border-border dark:border-white/5 rounded-xl p-8 md:p-12 shadow-sm hover:shadow-neon transition-shadow duration-300 relative">
-              <MessageSquareQuote className="absolute top-6 right-6 w-12 h-12 text-primary/5 dark:text-[#00ffcc]/5 select-none" />
+              <MessageSquareQuote className="absolute top-6 right-6 w-12 h-12 text-primary/5 dark:text-[#00ffcc] select-none" />
 
               <div className="min-h-[160px] flex flex-col justify-center">
                 <AnimatePresence mode="wait">

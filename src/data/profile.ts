@@ -212,6 +212,46 @@ export const profileData: ProfileData = {
     }
   ],
   experience: [
+        {
+      company: "KES INSPECTIONS AND PROJECTS",
+      role: {
+        fr: "Développeur Fullstack (Web & Mobile)",
+        "en": "Fullstack Developer (Web & Mobile)"
+      },
+      period: "2025 - en cours",
+      tasks: {
+        fr: [
+          "Développement de modules Odoo personnalisés pour faciliter le travail et la collaboration de différents départements.",
+          "Automatisation de processus métier avec n8n (relances automatiques par email et SMS, intégration d'API).",
+          "Contribution au développement d'applications internes d'inspection et de contrôle qualité électrique (KES)."
+        ],
+        en: [
+          "Developed customized Odoo modules to simplify communication and operations across departments.",
+          "Automated business workflows using n8n (automated email and SMS reminders, API integrations).",
+          "Contributed to building internal web/mobile applications for electrical inspection and quality control."
+        ]
+      }
+    },
+    {
+      company: "Camerica",
+      role: {
+        fr: "Développeur Web / Mobile",
+        en: "Web / Mobile Developer"
+      },
+      period: "01/2023 - 04/2024",
+      tasks: {
+        fr: [
+          "Développement du site web d'infographie et de sérigraphie de l'entreprise et intégration d'un module de prise de rendez-vous.",
+          "Conception et développement de CamChive, une application mobile de numérisation et sécurisation de documents physiques (dossiers de voyage).",
+          "Développement d'un système de facturation numérique pour remplacer les facturations manuelles sujettes aux erreurs."
+        ],
+        en: [
+          "Developed the company's graphic design and screen-printing website, integrating an online booking portal.",
+          "Designed and built CamChive, a mobile app to digitize and secure critical physical travel documents.",
+          "Developed a digital invoicing system to replace error-prone manual paper invoicing."
+        ]
+      }
+    },
     {
       company: "Ambassador International Entreprise",
       role: {
@@ -291,47 +331,8 @@ export const profileData: ProfileData = {
           "Developed HR dashboards connected to the payroll module for consolidated visibility and secure reporting."
         ]
       }
-    },
-    {
-      company: "KES (Kamer Ingénierie Solution)",
-      role: {
-        fr: "Développeur Fullstack (Web & Mobile)",
-        "en": "Fullstack Developer (Web & Mobile)"
-      },
-      period: "2024 - en cours",
-      tasks: {
-        fr: [
-          "Développement de modules Odoo personnalisés pour faciliter le travail et la collaboration de différents départements.",
-          "Automatisation de processus métier avec n8n (relances automatiques par email et SMS, intégration d'API).",
-          "Contribution au développement d'applications internes d'inspection et de contrôle qualité électrique (KES)."
-        ],
-        en: [
-          "Developed customized Odoo modules to simplify communication and operations across departments.",
-          "Automated business workflows using n8n (automated email and SMS reminders, API integrations).",
-          "Contributed to building internal web/mobile applications for electrical inspection and quality control."
-        ]
-      }
-    },
-    {
-      company: "Camerica",
-      role: {
-        fr: "Développeur Web / Mobile",
-        en: "Web / Mobile Developer"
-      },
-      period: "01/2023 - 04/2024",
-      tasks: {
-        fr: [
-          "Développement du site web d'infographie et de sérigraphie de l'entreprise et intégration d'un module de prise de rendez-vous.",
-          "Conception et développement de CamChive, une application mobile de numérisation et sécurisation de documents physiques (dossiers de voyage).",
-          "Développement d'un système de facturation numérique pour remplacer les facturations manuelles sujettes aux erreurs."
-        ],
-        en: [
-          "Developed the company's graphic design and screen-printing website, integrating an online booking portal.",
-          "Designed and built CamChive, a mobile app to digitize and secure critical physical travel documents.",
-          "Developed a digital invoicing system to replace error-prone manual paper invoicing."
-        ]
-      }
     }
+
   ],
   education: [
     {
@@ -342,8 +343,8 @@ export const profileData: ProfileData = {
       },
       period: "2024 - 2025",
       mention: {
-        fr: "Mention BIEN",
-        en: "With Honors (BIEN)"
+        fr: "With Honors",
+        en: "With Honors"
       }
     },
     {
@@ -354,8 +355,8 @@ export const profileData: ProfileData = {
       },
       period: "2023 - 2024",
       mention: {
-        fr: "Mention BIEN",
-        en: "With Honors (BIEN)"
+        fr: "With Honors",
+        en: "With Honors"
       }
     },
     {
@@ -366,8 +367,8 @@ export const profileData: ProfileData = {
       },
       period: "2021 - 2022",
       mention: {
-        fr: "Mention ASSEZ-BIEN",
-        en: "With Honors (ASSEZ-BIEN)"
+        fr: "With Honors",
+        en: "With Honors"
       }
     }
   ],
