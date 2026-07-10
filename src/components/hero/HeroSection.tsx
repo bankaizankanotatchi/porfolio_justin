@@ -27,7 +27,7 @@ export default function HeroSection({ profile, locale }: HeroSectionProps) {
       className="relative min-h-screen w-full flex flex-col justify-between p-6 sm:p-12 lg:p-20 overflow-hidden bg-background text-foreground"
     >
       {/* 3D MACBOOK COMPUTER IN THE CENTER */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none w-full h-full">
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none w-full h-full macbook-container">
         <div className="w-full h-[40vh] max-w-4xl opacity-100 flex items-center justify-center">
           <Hero3DCanvas />
         </div>

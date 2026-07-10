@@ -62,6 +62,47 @@ export default function Header({ locale }: { locale: string }) {
     }
   }, [pathname]);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    if (!isSubpage) {
+      e.preventDefault();
+      const el = document.getElementById(hash);
+      if (el) {
+        const offset = scrolled ? 64 : 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = el.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+        window.history.pushState(null, "", `#${hash}`);
+      }
+    }
+  };
+
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    setIsOpen(false);
+    if (!isSubpage) {
+      e.preventDefault();
+      const el = document.getElementById(hash);
+      if (el) {
+        const offset = 64;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = el.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+        window.history.pushState(null, "", `#${hash}`);
+      }
+    }
+  };
+
   const navItems = [
     { name: "Accueil", hash: "home" },
     { name: "À Propos", hash: "about" },
@@ -108,6 +149,7 @@ export default function Header({ locale }: { locale: string }) {
                 <a
                   key={item.hash}
                   href={targetUrl}
+                  onClick={(e) => handleNavClick(e, item.hash)}
                   className={`text-sm font-semibold transition-colors duration-200 relative py-1 focus:outline-none ${isActive
                       ? "text-primary dark:text-[#00ffcc]"
                       : "text-foreground/70 hover:text-foreground"
@@ -164,7 +206,7 @@ export default function Header({ locale }: { locale: string }) {
                     <a
                       key={item.hash}
                       href={targetUrl}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => handleMobileNavClick(e, item.hash)}
                       className={`text-base font-semibold py-2 border-b border-border/10 transition-colors flex items-center justify-between ${isActive
                           ? "text-primary dark:text-[#00ffcc]"
                           : "text-foreground"

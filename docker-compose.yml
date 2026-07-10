@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_web
+    ports:
+      - "3000:3000"
+    environment:
+      - OLLAMA_API_URL=http://ollama:11434/api/chat
+      - OLLAMA_MODEL=justin-ia
+    depends_on:
+      - ollama
+    restart: always
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: portfolio_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: always
+
+  ollama-setup:
+    image: ollama/ollama:latest
+    container_name: portfolio_ollama_setup
+    depends_on:
+      - ollama
+    volumes:
+      - ./Modelfile:/tmp/Modelfile
+      - ./setup-ollama.sh:/tmp/setup-ollama.sh
+      - ollama_data:/root/.ollama
+    entrypoint: ["/bin/sh", "/tmp/setup-ollama.sh"]
+
+volumes:
+  ollama_data:
