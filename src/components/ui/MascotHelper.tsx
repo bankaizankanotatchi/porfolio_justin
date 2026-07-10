@@ -217,553 +217,576 @@ export default function MascotHelper() {
     }, 600);
   };
 
-  // Détecter si l'écran est un mobile
+  // Gérer la hauteur du viewport visuel sur mobile pour s'adapter au clavier virtuel
+  const [viewportHeight, setViewportHeight] = useState("100dvh");
+
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    if (typeof window === "undefined" || !window.visualViewport) return;
+
+    const handleResize = () => {
+      if (window.visualViewport) {
+        setViewportHeight(`${window.visualViewport.height}px`);
+      }
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
-  // Ajuster la marge de droite du site (body) pour pousser le contenu en mode chat sur desktop
-  useEffect(() => {
-    if (typeof window === "undefined" || isMobile) return;
-
-    const body = document.body;
-    if (isChatMode) {
-      body.classList.add("chat-active");
-    } else {
-      body.classList.remove("chat-active");
-    }
+    window.visualViewport.addEventListener("resize", handleResize);
+    window.visualViewport.addEventListener("scroll", handleResize);
+    handleResize();
 
     return () => {
-      body.classList.remove("chat-active");
+      window.visualViewport?.removeEventListener("resize", handleResize);
+      window.visualViewport?.removeEventListener("scroll", handleResize);
     };
-  }, [isChatMode, isMobile]);
+  }, [isChatMode]);
 
-  // Charger le message d'accueil initial en fonction de la langue
-  useEffect(() => {
-    setMessages([
-      {
-        role: "assistant",
-        content:
-          locale === "en"
-            ? "Hello! I am Justin's virtual AI assistant. Ask me anything about his background, projects, or technical skills!"
-            : "Bonjour ! Je suis l'assistant virtuel de Justin. Pose-moi toutes tes questions sur son parcours, ses projets ou ses compétences !",
-      },
-    ]);
-  }, [locale]);
+    // Détecter si l'écran est un mobile
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
-  // Faire défiler vers le bas lors de la réception d'un message
-  useEffect(() => {
-    if (isChatMode) {
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages, isChatMode, isLoading]);
+    // Ajuster la marge de droite du site (body) pour pousser le contenu en mode chat sur desktop
+    useEffect(() => {
+      if (typeof window === "undefined" || isMobile) return;
 
-  // Écouter le succès du formulaire de contact
-  useEffect(() => {
-    const handleSuccess = () => {
-      setIsSuccessState(true);
-      setTimeout(() => setIsSuccessState(false), 6000);
-    };
+      const body = document.body;
+      if (isChatMode) {
+        body.classList.add("chat-active");
+      } else {
+        body.classList.remove("chat-active");
+      }
 
-    window.addEventListener("contact-submit-success", handleSuccess);
-    return () => window.removeEventListener("contact-submit-success", handleSuccess);
-  }, []);
+      return () => {
+        body.classList.remove("chat-active");
+      };
+    }, [isChatMode, isMobile]);
 
-  // Détection de la section active lors du défilement
-  useEffect(() => {
-    if (pathname.includes("/experiences")) {
-      setActiveSection("experiences");
-      return;
-    }
-    if (pathname.includes("/projets")) {
-      setActiveSection("projets");
-      return;
-    }
+    // Charger le message d'accueil initial en fonction de la langue
+    useEffect(() => {
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            locale === "en"
+              ? "Hello! I am Justin's virtual AI assistant. Ask me anything about his background, projects, or technical skills!"
+              : "Bonjour ! Je suis l'assistant virtuel de Justin. Pose-moi toutes tes questions sur son parcours, ses projets ou ses compétences !",
+        },
+      ]);
+    }, [locale]);
 
-    const handleScroll = () => {
-      const sections = ["home", "about", "skills", "projects", "testimonials", "contact"];
-      let current = "home";
+    // Faire défiler vers le bas lors de la réception d'un message
+    useEffect(() => {
+      if (isChatMode) {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }, [messages, isChatMode, isLoading]);
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            current = section;
-            break;
+    // Écouter le succès du formulaire de contact
+    useEffect(() => {
+      const handleSuccess = () => {
+        setIsSuccessState(true);
+        setTimeout(() => setIsSuccessState(false), 6000);
+      };
+
+      window.addEventListener("contact-submit-success", handleSuccess);
+      return () => window.removeEventListener("contact-submit-success", handleSuccess);
+    }, []);
+
+    // Détection de la section active lors du défilement
+    useEffect(() => {
+      if (pathname.includes("/experiences")) {
+        setActiveSection("experiences");
+        return;
+      }
+      if (pathname.includes("/projets")) {
+        setActiveSection("projets");
+        return;
+      }
+
+      const handleScroll = () => {
+        const sections = ["home", "about", "skills", "projects", "testimonials", "contact"];
+        let current = "home";
+
+        for (const section of sections) {
+          const el = document.getElementById(section);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+              current = section;
+              break;
+            }
           }
         }
-      }
-      setActiveSection(current);
-    };
+        setActiveSection(current);
+      };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
+      window.addEventListener("scroll", handleScroll);
+      handleScroll();
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, [pathname]);
 
-  // Déclencher l'état "vol" (Pose 3) lors du changement de section active
-  useEffect(() => {
-    setIsFlying(true);
-    setIsDismissed(false);
-    const timer = setTimeout(() => {
-      setIsFlying(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [activeSection]);
+    // Déclencher l'état "vol" (Pose 3) lors du changement de section active
+    useEffect(() => {
+      setIsFlying(true);
+      setIsDismissed(false);
+      const timer = setTimeout(() => {
+        setIsFlying(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }, [activeSection]);
 
-  // Calculer et animer les coordonnées X & Y de la mascotte + visibilité de la bulle
-  useEffect(() => {
-    const handlePositionUpdate = () => {
-      if (isTransitioningToChat || mascotState === "pushing") return;
+    // Calculer et animer les coordonnées X & Y de la mascotte + visibilité de la bulle
+    useEffect(() => {
+      const handlePositionUpdate = () => {
+        if (isTransitioningToChat || mascotState === "pushing") return;
 
-      // 1. Sur Mobile : Position fixe en bas à gauche
-      if (window.innerWidth < 768) {
-        setTargetX(16);
-        setTargetY(window.innerHeight - 130);
-        setShowBubble(true);
-        return;
-      }
-
-      // 2. Sur Desktop pour le Hero
-      if (activeSection === "home") {
-        setTargetX(24);
-        setTargetY(window.innerHeight - 200);
-        setShowBubble(true);
-        return;
-      }
-
-      // 3. Sur Desktop pour les autres sections (suivi du titre H2)
-      const section = document.getElementById(activeSection);
-      if (section) {
-        const h2 = section.querySelector("h2");
-        if (h2) {
-          const rect = h2.getBoundingClientRect();
-
-          let x = rect.left + rect.width + 20;
-          let y = rect.top - 15;
-
-          // Clamper les coordonnées
-          x = Math.max(24, Math.min(window.innerWidth - 340, x));
-          y = Math.max(100, Math.min(window.innerHeight - 180, y));
-
-          setTargetX(x);
-          setTargetY(y);
-
-          const isTitleVisible = rect.top >= 40 && rect.top <= window.innerHeight - 150;
-          setShowBubble(isTitleVisible);
-        } else {
-          const rect = section.getBoundingClientRect();
-          setTargetX(24);
-          setTargetY(Math.max(100, Math.min(window.innerHeight - 180, rect.top + 40)));
-          setShowBubble(false);
+        // 1. Sur Mobile : Position fixe en bas à gauche
+        if (window.innerWidth < 768) {
+          setTargetX(16);
+          setTargetY(window.innerHeight - 130);
+          setShowBubble(true);
+          return;
         }
+
+        // 2. Sur Desktop pour le Hero
+        if (activeSection === "home") {
+          setTargetX(24);
+          setTargetY(window.innerHeight - 200);
+          setShowBubble(true);
+          return;
+        }
+
+        // 3. Sur Desktop pour les autres sections (suivi du titre H2)
+        const section = document.getElementById(activeSection);
+        if (section) {
+          const h2 = section.querySelector("h2");
+          if (h2) {
+            const rect = h2.getBoundingClientRect();
+
+            let x = rect.left + rect.width + 20;
+            let y = rect.top - 15;
+
+            // Clamper les coordonnées
+            x = Math.max(24, Math.min(window.innerWidth - 340, x));
+            y = Math.max(100, Math.min(window.innerHeight - 180, y));
+
+            setTargetX(x);
+            setTargetY(y);
+
+            const isTitleVisible = rect.top >= 40 && rect.top <= window.innerHeight - 150;
+            setShowBubble(isTitleVisible);
+          } else {
+            const rect = section.getBoundingClientRect();
+            setTargetX(24);
+            setTargetY(Math.max(100, Math.min(window.innerHeight - 180, rect.top + 40)));
+            setShowBubble(false);
+          }
+        }
+      };
+
+      window.addEventListener("scroll", handlePositionUpdate);
+      window.addEventListener("resize", handlePositionUpdate);
+      handlePositionUpdate();
+
+      // Planifier des rafraîchissements pendant et après les transitions du body
+      const timer1 = setTimeout(handlePositionUpdate, 150);
+      const timer2 = setTimeout(handlePositionUpdate, 350);
+      const timer3 = setTimeout(handlePositionUpdate, 500);
+
+      return () => {
+        window.removeEventListener("scroll", handlePositionUpdate);
+        window.removeEventListener("resize", handlePositionUpdate);
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
+    }, [activeSection, isChatMode, mascotState, isMobile]);
+
+    // Messages du guide
+    const guides: Record<string, { fr: string; en: string }> = {
+      home: {
+        fr: "Bienvenue sur mon site ! Admire le MacBook 3D animé codé en pur CSS ! Utilise le menu pour naviguer.",
+        en: "Welcome to my portfolio! Check out the animated 3D MacBook coded in pure CSS! Use the menu to browse."
+      },
+      about: {
+        fr: "Voici mon parcours professionnel. Clique sur le bouton en bas pour voir tout l'historique !",
+        en: "Here is my career chronology. Click the button below to open the complete history!"
+      },
+      skills: {
+        fr: "Mon stack technique complet ! Tout mon savoir-faire y est listé et catégorisé sans devoir remonter !",
+        en: "My complete tech stack! All my know-how is listed and categorized without scrolling up!"
+      },
+      projects: {
+        fr: "Voici mes projets phares. Clique sur 'Visiter le site' pour voir les démos de mes applications en direct !",
+        en: "Here are my key projects. Click 'Visiter le site' to check out my live application demos!"
+      },
+      testimonials: {
+        fr: "Ce que mes clients disent de moi. Clique sur les flèches en bas pour faire défiler le carrousel !",
+        en: "What my clients say about my work. Click the arrow buttons at the bottom to scroll through!"
+      },
+      contact: {
+        fr: "Besoin de mes services ? Remplis ce formulaire pour m'envoyer directement un e-mail !",
+        en: "Need my services? Fill out this form to send me an email directly!"
+      },
+      experiences: {
+        fr: "Tu consultes mon historique de carrière complet ! Clique sur [ RETOUR ] pour revenir à l'accueil.",
+        en: "You are viewing my full career timeline! Click [ RETOUR ] to go back home."
+      },
+      projets: {
+        fr: "Recherche et filtre mes réalisations par mot-clé ou par technologie sur cette page d'archives !",
+        en: "Search and filter all my creations by keyword or technology on this archive page!"
       }
     };
 
-    window.addEventListener("scroll", handlePositionUpdate);
-    window.addEventListener("resize", handlePositionUpdate);
-    handlePositionUpdate();
+    useEffect(() => {
+      if (isSuccessState) {
+        setBubbleText(locale === "en" ? "Awesome! Your message has been sent successfully!" : "Super ! Ton message a bien été envoyé automatiquement !");
+        return;
+      }
 
-    // Planifier des rafraîchissements pendant et après les transitions du body
-    const timer1 = setTimeout(handlePositionUpdate, 150);
-    const timer2 = setTimeout(handlePositionUpdate, 350);
-    const timer3 = setTimeout(handlePositionUpdate, 500);
+      if (isMobile) {
+        setBubbleText(locale === "en" ? "Do you have any questions?" : "Vous avez des questions ?");
+        return;
+      }
 
-    return () => {
-      window.removeEventListener("scroll", handlePositionUpdate);
-      window.removeEventListener("resize", handlePositionUpdate);
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
-  }, [activeSection, isChatMode, mascotState, isMobile]);
+      const textData = guides[activeSection] || guides.home;
+      const msg = locale === "en" ? textData.en : textData.fr;
+      setBubbleText(msg);
+    }, [activeSection, locale, isSuccessState, isMobile]);
 
-  // Messages du guide
-  const guides: Record<string, { fr: string; en: string }> = {
-    home: {
-      fr: "Bienvenue sur mon site ! Admire le MacBook 3D animé codé en pur CSS ! Utilise le menu pour naviguer.",
-      en: "Welcome to my portfolio! Check out the animated 3D MacBook coded in pure CSS! Use the menu to browse."
-    },
-    about: {
-      fr: "Voici mon parcours professionnel. Clique sur le bouton en bas pour voir tout l'historique !",
-      en: "Here is my career chronology. Click the button below to open the complete history!"
-    },
-    skills: {
-      fr: "Mon stack technique complet ! Tout mon savoir-faire y est listé et catégorisé sans devoir remonter !",
-      en: "My complete tech stack! All my know-how is listed and categorized without scrolling up!"
-    },
-    projects: {
-      fr: "Voici mes projets phares. Clique sur 'Visiter le site' pour voir les démos de mes applications en direct !",
-      en: "Here are my key projects. Click 'Visiter le site' to check out my live application demos!"
-    },
-    testimonials: {
-      fr: "Ce que mes clients disent de moi. Clique sur les flèches en bas pour faire défiler le carrousel !",
-      en: "What my clients say about my work. Click the arrow buttons at the bottom to scroll through!"
-    },
-    contact: {
-      fr: "Besoin de mes services ? Remplis ce formulaire pour m'envoyer directement un e-mail !",
-      en: "Need my services? Fill out this form to send me an email directly!"
-    },
-    experiences: {
-      fr: "Tu consultes mon historique de carrière complet ! Clique sur [ RETOUR ] pour revenir à l'accueil.",
-      en: "You are viewing my full career timeline! Click [ RETOUR ] to go back home."
-    },
-    projets: {
-      fr: "Recherche et filtre mes réalisations par mot-clé ou par technologie sur cette page d'archives !",
-      en: "Search and filter all my creations by keyword or technology on this archive page!"
-    }
-  };
+    // Fonction d'envoi du message
+    const handleSendMessage = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!inputVal.trim() || isLoading) return;
 
-  useEffect(() => {
-    if (isSuccessState) {
-      setBubbleText(locale === "en" ? "Awesome! Your message has been sent successfully!" : "Super ! Ton message a bien été envoyé automatiquement !");
-      return;
-    }
+      const userMessage = { role: "user" as const, content: inputVal };
+      const updatedMessages = [...messages, userMessage];
 
-    if (isMobile) {
-      setBubbleText(locale === "en" ? "Do you have any questions?" : "Vous avez des questions ?");
-      return;
-    }
+      setMessages(updatedMessages);
+      setInputVal("");
+      setIsLoading(true);
 
-    const textData = guides[activeSection] || guides.home;
-    const msg = locale === "en" ? textData.en : textData.fr;
-    setBubbleText(msg);
-  }, [activeSection, locale, isSuccessState, isMobile]);
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ messages: updatedMessages }),
+        });
 
-  // Fonction d'envoi du message
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputVal.trim() || isLoading) return;
-
-    const userMessage = { role: "user" as const, content: inputVal };
-    const updatedMessages = [...messages, userMessage];
-
-    setMessages(updatedMessages);
-    setInputVal("");
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ messages: updatedMessages }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
-      } else {
+        if (response.ok) {
+          const data = await response.json();
+          setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
+        } else {
+          const errMsg =
+            locale === "en"
+              ? "I cannot answer you at the moment, Justin my developer is performing maintenance"
+              : "Je ne peux pas vous répondre pour le moment,Justin mon developpeur effectue une maintenance";
+          setMessages((prev) => [...prev, { role: "assistant", content: errMsg }]);
+        }
+      } catch (error) {
         const errMsg =
           locale === "en"
             ? "I cannot answer you at the moment, Justin my developer is performing maintenance"
             : "Je ne peux pas vous répondre pour le moment,Justin mon developpeur effectue une maintenance";
         setMessages((prev) => [...prev, { role: "assistant", content: errMsg }]);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      const errMsg =
-        locale === "en"
-          ? "I cannot answer you at the moment, Justin my developer is performing maintenance"
-          : "Je ne peux pas vous répondre pour le moment,Justin mon developpeur effectue une maintenance";
-      setMessages((prev) => [...prev, { role: "assistant", content: errMsg }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  const robotPose: "pose1" | "pose3" = (isFlying || isSuccessState || isLoading) ? "pose3" : "pose1";
+    const robotPose: "pose1" | "pose3" = (isFlying || isSuccessState || isLoading) ? "pose3" : "pose1";
 
-  return (
-    <>
-      {/* 1. MOTEUR FLOTTANT (Robot + Bulle en mode normal sur mobile et desktop) */}
-      <AnimatePresence>
-        {showFloatingMascot && (
-          <motion.div
-            key="floating-mascot"
-            initial={{ opacity: 0, x: targetX, y: targetY }}
-            animate={{
-              opacity: isVisible ? 1 : 0,
-              x: targetX,
-              y: targetY
-            }}
-            exit={{ opacity: 0 }}
-            transition={{
-              opacity: { duration: 0.2 },
-              x: { type: "spring", stiffness: 90, damping: 15 },
-              y: { type: "spring", stiffness: 90, damping: 15 }
-            }}
-            className="flex fixed z-40 items-start gap-4 pointer-events-none"
-            style={{
-              left: 0,
-              top: 0
-            }}
-          >
-            {/* Clique sur la mascotte pour ouvrir le chat */}
-            <div
-              className="relative pointer-events-auto flex flex-col items-center select-none w-20 cursor-pointer"
-              onClick={handleOpenChat}
-              title={locale === "en" ? "Click to chat with AI!" : "Cliquez pour discuter avec l'IA !"}
-            >
-              <motion.div
-                layoutId="mascot-robot"
-                animate={{ rotate: 0 }}
-                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              >
-                <RobotSVG pose={robotPose} isLoading={isLoading} />
-              </motion.div>
-              <div className="w-12 h-1.5 bg-black/10 dark:bg-black/35 rounded-full blur-[2.5px] mt-1.5 animate-[shadowMascot_3.5s_ease-in-out_infinite]" />
-            </div>
-
-            {/* Bulle d'aide contextuelle */}
-            {showBubble && !isDismissed && !isTransitioningToChat && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, x: -10 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -10 }}
-                className="hidden md:flex bg-white text-black border-[3px] border-black p-4 rounded-2xl max-w-[240px] shadow-[5px_5px_0px_#000] relative pointer-events-auto font-sans leading-tight text-xs flex flex-col gap-2"
-              >
-                {/* Flèche */}
-                <div className="absolute bottom-5 -left-[11px] w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-black border-b-[8px] border-b-transparent">
-                  <div className="absolute -top-[5px] left-[3px] w-0 h-0 border-t-[5px] border-t-transparent border-r-[5px] border-r-white border-b-[5px] border-b-transparent" />
-                </div>
-
-                <div className="flex items-center justify-between border-b-2 border-black pb-1 mb-0.5">
-                  <span className="font-mono text-[9px] text-gray-500 font-extrabold uppercase tracking-wider">
-                    GUIDE IA
-                  </span>
-                  <button
-                    onClick={() => setIsDismissed(true)}
-                    className="p-0.5 rounded hover:bg-gray-100 transition-colors"
-                    title="Masquer"
-                  >
-                    <X className="w-4 h-4 text-black hover:text-red-500 transition-colors" />
-                  </button>
-                </div>
-
-                <p className="font-bold text-gray-900 leading-normal select-none">
-                  {bubbleText}
-                </p>
-
-                <div className="border-t border-black/10 pt-2 mt-1 flex justify-center">
-                  <button
-                    onClick={handleOpenChat}
-                    className="w-full text-center font-mono text-[9px] font-extrabold uppercase py-1 border-2 border-black bg-primary text-white shadow-[2px_2px_0px_#000] hover:bg-primary/95 transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000]"
-                  >
-                    {locale === "en" ? "💬 Chat with my AI" : "💬 Discuter avec mon IA"}
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 2. MODE DISCUSSION (MODAL SHEET SUR DESKTOP / MODAL PLEIN ÉCRAN SUR MOBILE) */}
-      <AnimatePresence onExitComplete={() => {
-        if (!isChatMode) {
-          setMascotState("floating");
-        }
-      }}>
-        {isChatMode && (
-          isMobile ? (
-            // A. MODAL PLEIN ÉCRAN POUR LES MOBILES (Robot intégré dans le header)
+    return (
+      <>
+        {/* 1. MOTEUR FLOTTANT (Robot + Bulle en mode normal sur mobile et desktop) */}
+        <AnimatePresence>
+          {showFloatingMascot && (
             <motion.div
-              key="mobile-chat-modal"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed inset-0 bg-white dark:bg-background text-foreground z-50 flex flex-col p-4 pointer-events-auto"
-            >
-              {/* Header avec Robot */}
-              <div className="flex items-center justify-between border-b-2 border-black dark:border-white/20 pb-2 mb-2">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleCloseChat}
-                    className="p-1 rounded-full border-2 border-black dark:border-white/20 bg-gray-100 dark:bg-zinc-800 active:scale-90 transition-transform"
-                  >
-                    <ArrowLeft className="w-5 h-5 text-black dark:text-white" />
-                  </button>
-                  <div className="w-12 h-12 flex items-center justify-center overflow-visible">
-                    <RobotSVG pose={robotPose} isLoading={isLoading} scale={0.6} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-display font-extrabold text-sm text-black dark:text-white">ASSISTANT DE JUSTIN</span>
-                    <span className="font-mono text-[8px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
-                      IA ACTIVE
-                    </span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => {
-                    handleCloseChat();
-                    setIsDismissed(true);
-                  }}
-                  className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-zinc-800 text-black dark:text-white hover:text-red-500"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Historique */}
-              <div className="flex-1 overflow-y-auto flex flex-col gap-3 p-2 bg-gray-50 dark:bg-zinc-950/20 rounded-xl border-2 border-dashed border-gray-300 dark:border-white/10 scrollbar-thin">
-                {messages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] leading-snug ${msg.role === "user"
-                      ? "self-end bg-blue-100 dark:bg-blue-900/30 text-black dark:text-white"
-                      : "self-start bg-white dark:bg-zinc-900 text-black dark:text-white"
-                      }`}
-                  >
-                    <p className="font-bold text-[11px] whitespace-pre-line">{msg.content}</p>
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="self-start max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] bg-white dark:bg-zinc-900 text-left animate-pulse">
-                    <span className="font-bold text-gray-400 dark:text-gray-500">reflexion...</span>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
-
-              {/* Formulaire de saisie Multiligne */}
-              <form onSubmit={handleSendMessage} className="flex gap-2 mt-3 items-end">
-                <textarea
-                  value={inputVal}
-                  onChange={(e) => setInputVal(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSendMessage(e);
-                    }
-                  }}
-                  rows={3}
-                  placeholder={locale === "en" ? "Ask a question..." : "Poser une question..."}
-                  disabled={isLoading}
-                  className="flex-1 border-2 border-black dark:border-white/20 px-2.5 py-1.5 rounded-lg text-xs outline-none bg-white dark:bg-zinc-900 text-black dark:text-white font-semibold focus:ring-1 focus:ring-primary placeholder-gray-400 disabled:opacity-50 resize-none h-16 max-h-16"
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading || !inputVal.trim()}
-                  className="p-3.5 border-2 border-black dark:border-white/20 bg-primary text-white rounded-lg shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] dark:active:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] disabled:opacity-50"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
-              </form>
-            </motion.div>
-          ) : (
-            // B. MODAL SHEET FIXÉ À DROITE SUR DESKTOP (23% de largeur de l'écran)
-            <motion.div
-              key="desktop-chat-sheet"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              onAnimationComplete={(definition) => {
-                if (isChatMode && mascotState === "pulling") {
-                  setMascotState("header");
-                }
+              key="floating-mascot"
+              initial={{ opacity: 0, x: targetX, y: targetY }}
+              animate={{
+                opacity: isVisible ? 1 : 0,
+                x: targetX,
+                y: targetY
               }}
-              className="fixed top-0 right-0 h-screen w-[23vw] min-w-[280px] bg-white dark:bg-background border-l-[3px] border-black dark:border-white/20 shadow-[-5px_0_0px_#000] dark:shadow-[-5px_0_0px_rgba(255,255,255,0.15)] z-50 flex flex-col p-4 pointer-events-auto"
+              exit={{ opacity: 0 }}
+              transition={{
+                opacity: { duration: 0.2 },
+                x: { type: "spring", stiffness: 90, damping: 15 },
+                y: { type: "spring", stiffness: 90, damping: 15 }
+              }}
+              className="flex fixed z-40 items-start gap-4 pointer-events-none"
+              style={{
+                left: 0,
+                top: 0
+              }}
             >
-              {/* Unique mascotte dans le volet desktop qui glisse de manière fluide de gauche à droite */}
-              <motion.div
-                layoutId="mascot-robot"
-                animate={{
-                  rotate: mascotState === "pulling" ? -90 : mascotState === "pushing" ? 90 : 0
-                }}
-                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                className={`absolute z-50 flex items-center justify-center overflow-visible pointer-events-none w-10 h-10 transition-[left,top] duration-300 ${(mascotState === "pulling" || mascotState === "pushing")
-                  ? "-left-12 top-6"
-                  : "left-4 top-4"
-                  }`}
+              {/* Clique sur la mascotte pour ouvrir le chat */}
+              <div
+                className="relative pointer-events-auto flex flex-col items-center select-none w-20 cursor-pointer"
+                onClick={handleOpenChat}
+                title={locale === "en" ? "Click to chat with AI!" : "Cliquez pour discuter avec l'IA !"}
               >
-                <RobotSVG pose={robotPose} isLoading={isLoading} scale={0.5} />
-              </motion.div>
+                <motion.div
+                  layoutId="mascot-robot"
+                  animate={{ rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                >
+                  <RobotSVG pose={robotPose} isLoading={isLoading} />
+                </motion.div>
+                <div className="w-12 h-1.5 bg-black/10 dark:bg-black/35 rounded-full blur-[2.5px] mt-1.5 animate-[shadowMascot_3.5s_ease-in-out_infinite]" />
+              </div>
 
-              {/* Header avec Robot intégré */}
-              <div className="flex items-center justify-between border-b-2 border-black dark:border-white/20 pb-2 mb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 flex items-center justify-center overflow-visible">
-                    {/* Placeholder pour maintenir l'alignement */}
+              {/* Bulle d'aide contextuelle */}
+              {showBubble && !isDismissed && !isTransitioningToChat && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, x: -10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, x: -10 }}
+                  className="hidden md:flex bg-white text-black border-[3px] border-black p-4 rounded-2xl max-w-[240px] shadow-[5px_5px_0px_#000] relative pointer-events-auto font-sans leading-tight text-xs flex flex-col gap-2"
+                >
+                  {/* Flèche */}
+                  <div className="absolute bottom-5 -left-[11px] w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-black border-b-[8px] border-b-transparent">
+                    <div className="absolute -top-[5px] left-[3px] w-0 h-0 border-t-[5px] border-t-transparent border-r-[5px] border-r-white border-b-[5px] border-b-transparent" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="font-display font-extrabold text-[12px] leading-tight text-black dark:text-white">IA DE JUSTIN</span>
-                    <span className="font-mono text-[8px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1 leading-none mt-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
-                      ACTIVE
+
+                  <div className="flex items-center justify-between border-b-2 border-black pb-1 mb-0.5">
+                    <span className="font-mono text-[9px] text-gray-500 font-extrabold uppercase tracking-wider">
+                      GUIDE IA
                     </span>
+                    <button
+                      onClick={() => setIsDismissed(true)}
+                      className="p-0.5 rounded hover:bg-gray-100 transition-colors"
+                      title="Masquer"
+                    >
+                      <X className="w-4 h-4 text-black hover:text-red-500 transition-colors" />
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
+
+                  <p className="font-bold text-gray-900 leading-normal select-none">
+                    {bubbleText}
+                  </p>
+
+                  <div className="border-t border-black/10 pt-2 mt-1 flex justify-center">
+                    <button
+                      onClick={handleOpenChat}
+                      className="w-full text-center font-mono text-[9px] font-extrabold uppercase py-1 border-2 border-black bg-primary text-white shadow-[2px_2px_0px_#000] hover:bg-primary/95 transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000]"
+                    >
+                      {locale === "en" ? "💬 Chat with my AI" : "💬 Discuter avec mon IA"}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* 2. MODE DISCUSSION (MODAL SHEET SUR DESKTOP / MODAL PLEIN ÉCRAN SUR MOBILE) */}
+        <AnimatePresence onExitComplete={() => {
+          if (!isChatMode) {
+            setMascotState("floating");
+          }
+        }}>
+          {isChatMode && (
+            isMobile ? (
+              // A. MODAL PLEIN ÉCRAN POUR LES MOBILES (Robot intégré dans le header)
+              <motion.div
+                key="mobile-chat-modal"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={{ height: viewportHeight }}
+                className="fixed top-0 left-0 right-0 bg-white dark:bg-background text-foreground z-50 flex flex-col p-4 pointer-events-auto overflow-hidden"
+              >
+                {/* Header avec Robot */}
+                <div className="flex items-center justify-between border-b-2 border-black dark:border-white/20 pb-2 mb-2 flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleCloseChat}
+                      className="p-1 rounded-full border-2 border-black dark:border-white/20 bg-gray-100 dark:bg-zinc-800 active:scale-90 transition-transform"
+                    >
+                      <ArrowLeft className="w-5 h-5 text-black dark:text-white" />
+                    </button>
+                    <div className="w-12 h-12 flex items-center justify-center overflow-visible">
+                      <RobotSVG pose={robotPose} isLoading={isLoading} scale={0.6} />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-display font-extrabold text-sm text-black dark:text-white">ASSISTANT DE JUSTIN</span>
+                      <span className="font-mono text-[8px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                        IA ACTIVE
+                      </span>
+                    </div>
+                  </div>
                   <button
-                    onClick={handleCloseChat}
-                    className="font-mono text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white/20 bg-gray-100 dark:bg-zinc-800 font-extrabold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors uppercase shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] text-black dark:text-white"
+                    onClick={() => {
+                      handleCloseChat();
+                      setIsDismissed(true);
+                    }}
+                    className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-zinc-800 text-black dark:text-white hover:text-red-500"
                   >
-                    {locale === "en" ? "Back" : "Retour"}
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
-              </div>
 
-              {/* Historique des messages */}
-              <div className="flex-1 overflow-y-auto flex flex-col gap-3 p-2 border border-dashed border-gray-400 dark:border-white/15 rounded-lg bg-gray-50/50 dark:bg-zinc-950/20 scrollbar-thin">
-                {messages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] leading-snug ${msg.role === "user"
-                      ? "self-end bg-blue-100 dark:bg-blue-900/30 text-black dark:text-white"
-                      : "self-start bg-white dark:bg-zinc-900 text-black dark:text-white"
-                      }`}
+                {/* Historique */}
+                <div className="flex-1 overflow-y-auto flex flex-col gap-3 p-2 bg-gray-50 dark:bg-zinc-950/20 rounded-xl border-2 border-dashed border-gray-300 dark:border-white/10 scrollbar-thin">
+                  {messages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] leading-snug ${msg.role === "user"
+                        ? "self-end bg-blue-100 dark:bg-blue-900/30 text-black dark:text-white"
+                        : "self-start bg-white dark:bg-zinc-900 text-black dark:text-white"
+                        }`}
+                    >
+                      <p className="font-bold text-[11px] whitespace-pre-line">{msg.content}</p>
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="self-start max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] bg-white dark:bg-zinc-900 text-left animate-pulse">
+                      <span className="font-bold text-gray-400 dark:text-gray-500">reflexion...</span>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {/* Formulaire de saisie Multiligne */}
+                <form onSubmit={handleSendMessage} className="flex gap-2 mt-3 items-end flex-shrink-0">
+                  <textarea
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage(e);
+                      }
+                    }}
+                    rows={3}
+                    placeholder={locale === "en" ? "Ask a question..." : "Poser une question..."}
+                    disabled={isLoading}
+                    className="flex-1 border-2 border-black dark:border-white/20 px-2.5 py-1.5 rounded-lg text-xs outline-none bg-white dark:bg-zinc-900 text-black dark:text-white font-semibold focus:ring-1 focus:ring-primary placeholder-gray-400 disabled:opacity-50 resize-none h-16 max-h-16"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading || !inputVal.trim()}
+                    className="p-3.5 border-2 border-black dark:border-white/20 bg-primary text-white rounded-lg shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] dark:active:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] disabled:opacity-50"
                   >
-                    <p className="font-semibold text-[11px] whitespace-pre-line">{msg.content}</p>
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="self-start max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] bg-white dark:bg-zinc-900 text-left animate-pulse">
-                    <span className="font-bold text-gray-400 dark:text-gray-500">reflexion...</span>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
-
-              {/* Zone d'écriture Multiligne (3 lignes max) */}
-              <form onSubmit={handleSendMessage} className="flex gap-2 mt-3 items-end">
-                <textarea
-                  value={inputVal}
-                  onChange={(e) => setInputVal(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSendMessage(e);
-                    }
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+              </motion.div>
+            ) : (
+              // B. MODAL SHEET FIXÉ À DROITE SUR DESKTOP (23% de largeur de l'écran)
+              <motion.div
+                key="desktop-chat-sheet"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                onAnimationComplete={(definition) => {
+                  if (isChatMode && mascotState === "pulling") {
+                    setMascotState("header");
+                  }
+                }}
+                className="fixed top-0 right-0 h-screen w-[23vw] min-w-[280px] bg-white dark:bg-background border-l-[3px] border-black dark:border-white/20 shadow-[-5px_0_0px_#000] dark:shadow-[-5px_0_0px_rgba(255,255,255,0.15)] z-50 flex flex-col p-4 pointer-events-auto"
+              >
+                {/* Unique mascotte dans le volet desktop qui glisse de manière fluide de gauche à droite */}
+                <motion.div
+                  layoutId="mascot-robot"
+                  animate={{
+                    rotate: mascotState === "pulling" ? -90 : mascotState === "pushing" ? 90 : 0
                   }}
-                  rows={3}
-                  placeholder={locale === "en" ? "Ask a question..." : "Poser une question..."}
-                  disabled={isLoading}
-                  className="flex-1 border-2 border-black dark:border-white/20 px-2.5 py-1.5 rounded-lg text-xs outline-none bg-white dark:bg-zinc-900 text-black dark:text-white font-semibold focus:ring-1 focus:ring-primary placeholder-gray-400 disabled:opacity-50 resize-none h-16 max-h-16"
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading || !inputVal.trim()}
-                  className="p-3.5 border-2 border-black dark:border-white/20 bg-primary text-white rounded-lg shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] dark:active:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] transition-all disabled:opacity-50"
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                  className={`absolute z-50 flex items-center justify-center overflow-visible pointer-events-none w-10 h-10 transition-[left,top] duration-300 ${(mascotState === "pulling" || mascotState === "pushing")
+                    ? "-left-12 top-6"
+                    : "left-4 top-4"
+                    }`}
                 >
-                  <Send className="w-3.5 h-3.5" />
-                </button>
-              </form>
-            </motion.div>
-          )
-        )}
-      </AnimatePresence>
+                  <RobotSVG pose={robotPose} isLoading={isLoading} scale={0.5} />
+                </motion.div>
 
-      <style jsx global>{`
+                {/* Header avec Robot intégré */}
+                <div className="flex items-center justify-between border-b-2 border-black dark:border-white/20 pb-2 mb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-10 h-10 flex items-center justify-center overflow-visible">
+                      {/* Placeholder pour maintenir l'alignement */}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-display font-extrabold text-[12px] leading-tight text-black dark:text-white">IA DE JUSTIN</span>
+                      <span className="font-mono text-[8px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1 leading-none mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                        ACTIVE
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleCloseChat}
+                      className="font-mono text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white/20 bg-gray-100 dark:bg-zinc-800 font-extrabold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors uppercase shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] text-black dark:text-white"
+                    >
+                      {locale === "en" ? "Back" : "Retour"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Historique des messages */}
+                <div className="flex-1 overflow-y-auto flex flex-col gap-3 p-2 border border-dashed border-gray-400 dark:border-white/15 rounded-lg bg-gray-50/50 dark:bg-zinc-950/20 scrollbar-thin">
+                  {messages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] leading-snug ${msg.role === "user"
+                        ? "self-end bg-blue-100 dark:bg-blue-900/30 text-black dark:text-white"
+                        : "self-start bg-white dark:bg-zinc-900 text-black dark:text-white"
+                        }`}
+                    >
+                      <p className="font-semibold text-[11px] whitespace-pre-line">{msg.content}</p>
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="self-start max-w-[85%] p-2.5 rounded-xl border-2 border-black dark:border-white/20 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] bg-white dark:bg-zinc-900 text-left animate-pulse">
+                      <span className="font-bold text-gray-400 dark:text-gray-500">reflexion...</span>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {/* Zone d'écriture Multiligne (3 lignes max) */}
+                <form onSubmit={handleSendMessage} className="flex gap-2 mt-3 items-end">
+                  <textarea
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage(e);
+                      }
+                    }}
+                    rows={3}
+                    placeholder={locale === "en" ? "Ask a question..." : "Poser une question..."}
+                    disabled={isLoading}
+                    className="flex-1 border-2 border-black dark:border-white/20 px-2.5 py-1.5 rounded-lg text-xs outline-none bg-white dark:bg-zinc-900 text-black dark:text-white font-semibold focus:ring-1 focus:ring-primary placeholder-gray-400 disabled:opacity-50 resize-none h-16 max-h-16"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading || !inputVal.trim()}
+                    className="p-3.5 border-2 border-black dark:border-white/20 bg-primary text-white rounded-lg shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] dark:active:shadow-[1px_1px_0px_rgba(255,255,255,0.15)] transition-all disabled:opacity-50"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                </form>
+              </motion.div>
+            )
+          )}
+        </AnimatePresence>
+
+        <style jsx global>{`
         @keyframes floatMascot {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-7px) rotate(1deg); }
@@ -777,6 +800,6 @@ export default function MascotHelper() {
           100% { transform: scaleY(0.85); opacity: 0.75; }
         }
       `}</style>
-    </>
-  );
-}
+      </>
+    );
+  }
