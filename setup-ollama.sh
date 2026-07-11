@@ -12,8 +12,8 @@ done
 
 echo "Service Ollama actif !"
 
-echo "1. Synchronisation du modèle de base qwen2:1.5b..."
-env OLLAMA_HOST=ollama ollama pull qwen2:1.5b
+echo "1. Synchronisation du modèle de base llama3.2:3b..."
+env OLLAMA_HOST=ollama ollama pull llama3.2:3b
 
 echo "2. Création / Mise à jour du modèle personnalisé 'justin-ia' avec le Modelfile..."
 env OLLAMA_HOST=ollama ollama create justin-ia -f /tmp/Modelfile

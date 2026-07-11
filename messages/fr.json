@@ -10,7 +10,7 @@
     "admin": "Dashboard"
   },
   "hero": {
-    "greeting": "Bonjour, je suis",
+    "greeting": "Salut, je suis",
     "subtitle": "Développeur Fullstack spécialisé dans la conception d'applications robustes et l'automatisation d'infrastructures.",
     "cta_projects": "Voir mes projets",
     "cta_contact": "Me contacter",

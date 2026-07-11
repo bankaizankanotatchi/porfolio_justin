@@ -115,7 +115,7 @@ export const profileData: ProfileData = {
       id: "innov-immo",
       name: "Innov-Immo",
       stack: ["Next.js", "TypeScript", "Tailwind CSS"],
-      year: "2025",
+      year: "2026",
       description: {
         fr: "Site vitrine moderne présentant l'entreprise immobilière Innov-Immo avec une interface fluide et des animations soignées.",
         en: "Modern showcase website presenting the real estate company Innov-Immo with a sleek interface and smooth animations."
@@ -126,7 +126,7 @@ export const profileData: ProfileData = {
       id: "innov-btp",
       name: "Innov-BTP",
       stack: ["Next.js", "TypeScript", "Tailwind CSS"],
-      year: "2025",
+      year: "2026",
       description: {
         fr: "Site vitrine présentant l'entreprise de construction et BTP Innov-BTP mettant en avant leurs réalisations majeures.",
         en: "Showcase website presenting the construction and civil engineering company Innov-BTP, highlighting their major achievements."
@@ -212,7 +212,7 @@ export const profileData: ProfileData = {
     }
   ],
   experience: [
-        {
+    {
       company: "KES INSPECTIONS AND PROJECTS",
       role: {
         fr: "Développeur Fullstack (Web & Mobile)",

@@ -1,7 +1,7 @@
 # Modelfile pour Ollama - Assistant Virtuel de Justin Théophane
 # Pour générer le modèle, exécutez : ollama create justin-ia -f ./Modelfile
 
-FROM qwen2:1.5b
+FROM llama3.2:3b
 
 # Réglage de la température de créativité (basse pour éviter les inventions/hallucinations)
 PARAMETER temperature 0.2
